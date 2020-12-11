@@ -18,6 +18,6 @@
 	"homepage": "https://github.com/brandoshizzle/LiteByteRpi#readme",
 	"dependencies": {
 		"firebase": "^8.1.2",
-		"rpi-ws281x": "@latest"
+		"rpi-ws281x": "^1.0.35"
 	}
 }
