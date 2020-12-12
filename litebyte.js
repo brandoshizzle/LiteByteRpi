@@ -66,11 +66,11 @@ class Example {
 				const grid = snapshot.val();
 				for (var i = 0; i < this.config.width; i++) {
 					for (var j = 0; j < this.config.height; j++) {
-						console.log(hex(grid[i][j]));
+						// console.log(hex(grid[i][j]));
 						this.pixels[i + j] = hex(grid[i][j]);
 					}
 				}
-				console.log('render time');
+				console.log(this.pixels);
 				ws281x.render(this.pixels);
 			});
 
