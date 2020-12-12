@@ -1,5 +1,5 @@
 const ws281x = require('rpi-ws281x');
-const c = require('coordinates');
+const c = require('./coordinates');
 class Example {
 	constructor() {
 		this.config = {
