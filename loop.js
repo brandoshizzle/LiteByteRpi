@@ -26,7 +26,7 @@ class Example {
 		ws281x.render(pixels);
 
 		this.x++;
-		if (this.x > 32) {
+		if (this.x > 31) {
 			this.x = 0;
 			this.y++;
 		}
