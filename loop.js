@@ -37,7 +37,7 @@ class Example {
 
 	run() {
 		// Loop every 100 ms
-		setInterval(this.loop.bind(this), 500);
+		setInterval(this.loop.bind(this), 50);
 	}
 }
 
