@@ -13,7 +13,7 @@ function XYtoPixelNum(x, y) {
 		// starts top right, snakes to bottom left
 		pixel = 16 * (y + 1) + (y % 2 === 0 ? -x : x);
 	}
-	console.log(pixel);
+	console.log(`(${x},${y}) = ${pixel}`);
 	return pixel;
 }
 
