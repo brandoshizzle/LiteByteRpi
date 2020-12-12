@@ -67,7 +67,8 @@ class Example {
 				for (var i = 0; i < this.config.width; i++) {
 					for (var j = 0; j < this.config.height; j++) {
 						// console.log(hex(grid[i][j]));
-						this.pixels[i + j] = hex(grid[i][j]);
+
+						this.pixels[this.XYtoPixelNum(i, j)] = hex(grid[i][j]);
 					}
 				}
 				console.log(this.pixels);
