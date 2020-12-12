@@ -46,10 +46,8 @@ class Example {
 		return row + add;
 	}
 
-	updateFromServer(val, x) {
-		for (var y = 0; y < this.config.height; y++) {
-			this.pixels[this.XYtoPixelNum(x, y)] = hex(val[y]);
-		}
+	updateFromServer(val, x, y) {
+		this.pixels[this.XYtoPixelNum(x, y)] = hex(val);
 		ws281x.render(this.pixels);
 	}
 
@@ -72,12 +70,12 @@ class Example {
 		for (var x = 0; x < this.config.width; x++) {
 			for (var y = 0; y < this.config.height; y++) {
 				console.log('registering listener');
-				const row = y;
-				const col = x;
+				const row = y.toString();
+				const col = x.toString();
 				this.database.ref(`grid/${col}/${row}`).on('value', (snapshot) => {
 					const now = Date.now();
-					console.log('heard a change at', row + col, snapshot.val());
-					this.updateFromServer(snapshot.val(), col);
+					console.log('heard a change at', row, col, snapshot.val());
+					this.updateFromServer(snapshot.val(), col, row);
 				});
 			}
 		}
