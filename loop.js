@@ -7,6 +7,9 @@ class Example {
 			leds: 512,
 			brightness: 50,
 			type: 'grb',
+			width: 32,
+			height: 16,
+			map: 'matrix',
 		};
 		ws281x.configure(this.config);
 	}
@@ -28,23 +31,6 @@ class Example {
 		// Loop every 100 ms
 		setInterval(this.loop.bind(this), 200);
 	}
-
-	// run() {
-	// 	// Create a pixel array matching the number of leds.
-	// 	// This must be an instance of Uint32Array.
-	// 	var pixels = new Uint32Array(this.config.leds);
-
-	// 	// Create a fill color with red/green/blue.
-	// 	var green = 255,
-	// 		red = 0,
-	// 		blue = 0;
-	// 	var color = (green << 16) | (red << 8) | blue;
-
-	// 	for (var i = 0; i < this.config.leds; i++) pixels[i] = color;
-
-	// 	// Render to strip
-	// 	ws281x.render(pixels);
-	// }
 }
 
 var example = new Example();
