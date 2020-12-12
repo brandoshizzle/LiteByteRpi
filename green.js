@@ -2,21 +2,12 @@ var ws281x = require('rpi-ws281x');
 
 class Example {
 	constructor() {
-		this.config = {};
-		// Number of leds in my strip
-		this.config.leds = 512;
-		// Use DMA 10 (default 10)
-		this.config.dma = 10;
-		// Set full brightness, a value from 0 to 255 (default 255)
-		this.config.brightness = 50;
-		// Set the GPIO number to communicate with the Neopixel strip (default 18)
-		this.config.gpio = 18;
-		// The RGB sequence may vary on some strips. Valid values
-		// are "rgb", "rbg", "grb", "gbr", "bgr", "brg".
-		// Default is "rgb".
-		// RGBW strips are not currently supported.
-		this.config.type = 'grb';
-		// Configure ws281x
+		this.offset = 0;
+		this.config = {
+			leds: 512,
+			brightness: 50,
+			type: 'grb',
+		};
 		ws281x.configure(this.config);
 	}
 
