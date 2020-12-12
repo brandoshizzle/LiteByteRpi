@@ -52,24 +52,22 @@ class Example {
 	}
 
 	run() {
-		// this.database
-		// 	.ref('grid')
-		// 	.once('value')
-		// 	.then((snapshot) => {
-		// 		console.log('loaded grid');
-		// 		const grid = snapshot.val();
-		// 		for (var i = 0; i < this.config.width; i++) {
-		// 			for (var j = 0; j < this.config.height; j++) {
-		// 				this.pixels[this.XYtoPixelNum(i, j)] = hex(grid[i][j]);
-		// 			}
-		// 		}
-		// 		ws281x.render(this.pixels);
-		// 	});
+		this.database
+			.ref('grid')
+			.once('value')
+			.then((snapshot) => {
+				console.log('loaded grid');
+				const grid = snapshot.val();
+				for (var i = 0; i < this.config.width; i++) {
+					for (var j = 0; j < this.config.height; j++) {
+						this.pixels[this.XYtoPixelNum(i, j)] = hex(grid[i][j]);
+					}
+				}
+				ws281x.render(this.pixels);
+			});
 
-		console.log('almost there');
 		for (var x = 0; x < this.config.width; x++) {
 			for (var y = 0; y < this.config.height; y++) {
-				console.log('registering listener');
 				const row = y.toString();
 				const col = x.toString();
 				this.database.ref(`grid/${col}/${row}`).on('value', (snapshot) => {
