@@ -2,6 +2,8 @@ const ws281x = require('rpi-ws281x');
 const c = require('./coordinates');
 class Example {
 	constructor() {
+		this.x = 0;
+		this.y = 0;
 		this.config = {
 			// leds: 512,
 			brightness: 128,
@@ -17,19 +19,20 @@ class Example {
 		var leds = this.config.width * this.config.height;
 		var pixels = new Uint32Array(leds);
 
-		for (let y = 0; y < this.config.height; y++) {
-			for (let x = 0; x < this.config.width; x++) {
-				var realx = x;
-				if (y % 2 !== 0) {
-					realx = 15 - x;
-				}
-				// Set a specific pixel
-				pixels[c.XYtoPixelNum(x, y)] = 0xff0000;
-			}
-		}
+		// Set a specific pixel
+		pixels[c.XYtoPixelNum(x, y)] = 0xff0000;
 
 		// Render to strip
 		ws281x.render(pixels);
+
+		this.x++;
+		if (this.x > 32) {
+			this.x = 0;
+			this.y++;
+		}
+		if (this.y > 15) {
+			this.y = 0;
+		}
 	}
 
 	run() {
