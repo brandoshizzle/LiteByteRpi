@@ -75,7 +75,7 @@ class Example {
 				this.database.ref(`grid/${x}/${y}`).on('value', (snapshot) => {
 					const now = Date.now();
 					console.log('heard a change at');
-					console.log(snapshot);
+					console.log(snapshot.val());
 					this.updateFromServer(snapshot.val(), x);
 				});
 			}
