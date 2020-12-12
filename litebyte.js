@@ -46,9 +46,11 @@ class Example {
 		return row + add;
 	}
 
-	updateFromServer(val, x, y) {
+	updateFromServer(val, x) {
 		console.log('Got a server update!');
-		this.pixels[this.XYtoPixelNum(x, y)] = hex(val);
+		for (var y = 0; y < this.config.height; y++) {
+			this.pixels[this.XYtoPixelNum(x, y)] = hex(val[y]);
+		}
 		ws281x.render(this.pixels);
 	}
 
@@ -71,9 +73,9 @@ class Example {
 		for (var x = 0; x < this.config.width; x++) {
 			for (var y = 0; y < this.config.height; y++) {
 				console.log('mic check');
-				this.database.ref(`grid/${x}/${y}`).on('value', (snapshot) => {
+				this.database.ref(`grid/${x}`).on('child_changed', (snapshot) => {
 					console.log('heard a change');
-					this.updateFromServer(snapshot.val(), x, y);
+					this.updateFromServer(snapshot.val(), x);
 				});
 			}
 		}
