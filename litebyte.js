@@ -45,7 +45,6 @@ class Example {
 			row = 15 + y * 16;
 			add = y % 2 === 0 ? -boardX : -15 + boardX;
 		}
-		console.log(x, y, row, add, row + add);
 		return row + add;
 	}
 
@@ -55,20 +54,6 @@ class Example {
 	}
 
 	run() {
-		// this.database
-		// 	.ref('grid')
-		// 	.once('value')
-		// 	.then((snapshot) => {
-		// 		console.log('loaded grid');
-		// 		const grid = snapshot.val();
-		// 		for (var i = 0; i < this.config.width; i++) {
-		// 			for (var j = 0; j < this.config.height; j++) {
-		// 				this.pixels[this.XYtoPixelNum(i, j)] = hex(grid[i][j]);
-		// 			}
-		// 		}
-		// 		ws281x.render(this.pixels);
-		// 	});
-
 		for (var x = 0; x < this.config.width; x++) {
 			for (var y = 0; y < this.config.height; y++) {
 				const row = y.toString();
@@ -79,7 +64,6 @@ class Example {
 				});
 			}
 		}
-
 		// Render to strip
 		ws281x.render(this.pixels);
 	}
