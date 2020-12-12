@@ -46,11 +46,6 @@ class Example {
 		return row + add;
 	}
 
-	// rgbToHex(r, g, b) {
-	// 	// Create a fill color with red/green/blue.
-	// 	return (g << 16) | (r << 8) | b;
-	// }
-
 	updateFromServer(val, x, y) {
 		console.log('Got a server update!');
 		this.pixels[this.XYtoPixelNum(x, y)] = hex(val);
@@ -66,8 +61,6 @@ class Example {
 				const grid = snapshot.val();
 				for (var i = 0; i < this.config.width; i++) {
 					for (var j = 0; j < this.config.height; j++) {
-						// console.log(hex(grid[i][j]));
-
 						this.pixels[this.XYtoPixelNum(i, j)] = hex(grid[i][j]);
 					}
 				}
@@ -75,13 +68,11 @@ class Example {
 				ws281x.render(this.pixels);
 			});
 
-		for (var i = 0; i < this.config.width; i++) {
-			for (var j = 0; j < this.config.height; j++) {
-				const col = i;
-				const row = j;
-				this.database.ref(`grid/${i}/${j}`).on('child_changed', (snapshot) => {
+		for (var x = 0; x < this.config.width; x++) {
+			for (var y = 0; y < this.config.height; y++) {
+				this.database.ref(`grid/${x}/${y}`).on('child_changed', (snapshot) => {
 					console.log('registered listener');
-					this.updateFromServer(snapshot.val(), col, row);
+					this.updateFromServer(snapshot.val(), x, y);
 				});
 			}
 		}
