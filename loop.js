@@ -20,7 +20,7 @@ class Example {
 		var pixels = new Uint32Array(leds);
 
 		// Set a specific pixel
-		pixels[c.XYtoPixelNum(x, y)] = 0xff0000;
+		pixels[c.XYtoPixelNum(this.x, this.y)] = 0xff0000;
 
 		// Render to strip
 		ws281x.render(pixels);
