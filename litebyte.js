@@ -73,7 +73,7 @@ class Example {
 			for (var y = 0; y < this.config.height; y++) {
 				console.log('mic check');
 				this.database.ref(`grid/${x}`).on('child_changed', (snapshot) => {
-					const now = new Date.now();
+					const now = Date.now();
 					console.log('heard a change at', now);
 					this.updateFromServer(snapshot.val(), x);
 				});
