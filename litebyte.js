@@ -64,12 +64,13 @@ class Example {
 						this.pixels[this.XYtoPixelNum(i, j)] = hex(grid[i][j]);
 					}
 				}
-				console.log(this.pixels);
 				ws281x.render(this.pixels);
 			});
 
+		console.log('almost there');
 		for (var x = 0; x < this.config.width; x++) {
 			for (var y = 0; y < this.config.height; y++) {
+				console.log('mic check');
 				this.database.ref(`grid/${x}/${y}`).on('child_changed', (snapshot) => {
 					console.log('registered listener');
 					this.updateFromServer(snapshot.val(), x, y);
