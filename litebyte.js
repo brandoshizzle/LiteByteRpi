@@ -74,7 +74,7 @@ class Example {
 				console.log('registering listener');
 				this.database.ref(`grid/${x}/${y}`).on('value', (snapshot) => {
 					const now = Date.now();
-					console.log('heard a change at');
+					console.log('heard a change at', i + j);
 					console.log(snapshot.val());
 					this.updateFromServer(snapshot.val(), x);
 				});
