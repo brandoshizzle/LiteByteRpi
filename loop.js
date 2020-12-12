@@ -4,7 +4,7 @@ class Example {
 	constructor() {
 		this.offset = 0;
 		this.config = {
-			leds: 512,
+			// leds: 512,
 			brightness: 50,
 			type: 'grb',
 			width: 32,
