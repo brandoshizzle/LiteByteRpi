@@ -58,7 +58,7 @@ class Example {
 	}
 
 	run() {
-		database
+		this.database
 			.ref('grid')
 			.once('value')
 			.then((snapshot) => {
@@ -76,7 +76,7 @@ class Example {
 			for (var j = 0; j < this.config.height; j++) {
 				const col = i;
 				const row = j;
-				database.ref(`grid/${i}/${j}`).on('child_changed', (snapshot) => {
+				this.database.ref(`grid/${i}/${j}`).on('child_changed', (snapshot) => {
 					console.log('registered listener');
 					this.updateFromServer(snapshot.val(), col, row);
 				});
