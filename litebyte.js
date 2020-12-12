@@ -72,7 +72,7 @@ class Example {
 		for (var x = 0; x < this.config.width; x++) {
 			for (var y = 0; y < this.config.height; y++) {
 				console.log('registering listener');
-				this.database.ref(`grid/${x}/${y}/`).on('child_changed', (snapshot) => {
+				this.database.ref(`grid`).on('child_changed', (snapshot) => {
 					const now = Date.now();
 					console.log('heard a change at', now);
 					console.log(snapshot.val());
