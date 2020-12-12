@@ -12,7 +12,9 @@ function XYtoPixelNum(x, y) {
 		// right board
 		// starts top right, snakes to bottom left
 		const row = 16 * (y + 1);
-		pixel = row + (y % 2 === 0 ? -x : x);
+		const add = y % 2 === 0 ? -x : x;
+		console.log(row, add);
+		pixel = row + add;
 	}
 	console.log(`(${x},${y}) = ${pixel}`);
 	return pixel;
