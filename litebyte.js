@@ -47,7 +47,6 @@ class Example {
 	}
 
 	updateFromServer(val, x) {
-		console.log('Got a server update!');
 		for (var y = 0; y < this.config.height; y++) {
 			this.pixels[this.XYtoPixelNum(x, y)] = hex(val[y]);
 		}
@@ -74,7 +73,8 @@ class Example {
 			for (var y = 0; y < this.config.height; y++) {
 				console.log('mic check');
 				this.database.ref(`grid/${x}`).on('child_changed', (snapshot) => {
-					console.log('heard a change');
+					const now = new Date.now();
+					console.log('heard a change at', now);
 					this.updateFromServer(snapshot.val(), x);
 				});
 			}
