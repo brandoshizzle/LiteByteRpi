@@ -5,7 +5,7 @@ class Example {
 		this.offset = 0;
 		this.config = {
 			// leds: 512,
-			brightness: 50,
+			brightness: 128,
 			type: 'grb',
 			width: 32,
 			height: 16,
@@ -29,7 +29,7 @@ class Example {
 
 	run() {
 		// Loop every 100 ms
-		setInterval(this.loop.bind(this), 200);
+		setInterval(this.loop.bind(this), 100);
 	}
 }
 
