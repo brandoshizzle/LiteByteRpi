@@ -6,7 +6,7 @@ function XYtoPixelNum(x, y) {
 	if (x < 16) {
 		// left board
 		// starts bottom left, snakes to top right
-		const row = 496 - 16 * y;
+		const row = 511 - 16 * y;
 		pixel = row + (y % 2 === 0 ? -x : x); // Add x if even row, subtract if odd
 	} else {
 		// right board
