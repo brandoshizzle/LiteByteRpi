@@ -23,7 +23,7 @@ class Example {
 			map: 'matrix',
 		};
 		this.leds = this.config.width * this.config.height;
-		this.pixels = new Uint32Array(leds).fill(0x000000);
+		this.pixels = new Uint32Array(this.leds).fill(0x000000);
 		this.database = firebase.database();
 		ws281x.configure(this.config);
 	}
