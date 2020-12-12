@@ -71,8 +71,8 @@ class Example {
 		for (var x = 0; x < this.config.width; x++) {
 			for (var y = 0; y < this.config.height; y++) {
 				console.log('mic check');
-				this.database.ref(`grid/${x}/${y}`).on('child_changed', (snapshot) => {
-					console.log('registered listener');
+				this.database.ref(`grid/${x}/${y}`).on('value', (snapshot) => {
+					console.log('heard a change');
 					this.updateFromServer(snapshot.val(), x, y);
 				});
 			}
