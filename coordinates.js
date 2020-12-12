@@ -7,12 +7,15 @@ function XYtoPixelNum(x, y) {
 		// left board
 		// starts bottom left, snakes to top right
 		const row = 511 - 16 * y;
-		pixel = row + (y % 2 === 0 ? -x : x); // Add x if even row, subtract if odd
+		const add = y % 2 === 0 ? -x : x;
+		console.log(row, add);
+		pixel = row + add; // Add x if even row, subtract if odd
 	} else {
 		// right board
 		// starts top right, snakes to bottom left
+		const boardX = x - 16;
 		const row = 16 * (y + 1);
-		const add = y % 2 === 0 ? -x : x;
+		const add = y % 2 === 0 ? -boardX : boardX;
 		console.log(row, add);
 		pixel = row + add;
 	}
