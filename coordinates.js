@@ -13,9 +13,9 @@ function XYtoPixelNum(x, y) {
 	} else {
 		// right board
 		// starts top right, snakes to bottom left
-		const boardX = x - 15;
+		const boardX = x - 16;
 		const row = 15 * (y + 1);
-		const add = y % 2 === 0 ? -boardX : -15 + boardX;
+		const add = y % 2 === 0 ? -boardX : -16 + boardX;
 		console.log(row, add);
 		pixel = row + add;
 	}
