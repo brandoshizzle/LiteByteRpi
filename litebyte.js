@@ -66,9 +66,11 @@ class Example {
 				const grid = snapshot.val();
 				for (var i = 0; i < this.config.width; i++) {
 					for (var j = 0; j < this.config.height; j++) {
+						console.log(grid[i][j]);
 						this.pixels[i + j] = hex(grid[i][j]);
 					}
 				}
+				console.log('render time');
 				ws281x.render(this.pixels);
 			});
 
@@ -82,9 +84,6 @@ class Example {
 				});
 			}
 		}
-
-		// Set a specific pixel
-		// pixels[XYtoPixelNum(this.x, this.y)] = 0xff0000;
 
 		// Render to strip
 		ws281x.render(this.pixels);
