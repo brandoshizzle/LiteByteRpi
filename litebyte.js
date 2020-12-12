@@ -31,6 +31,8 @@ class Example {
 	XYtoPixelNum(x, y) {
 		// Takes x, y coordinates and converst them to the pixel number for the library
 		// Returns pixel num (integer)
+		x = parseInt(x);
+		y = parseInt(y);
 		let row = 0;
 		let add = 0;
 		if (x < 16) {
