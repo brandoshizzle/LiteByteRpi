@@ -17,15 +17,17 @@ class Example {
 	XYtoPixelNum(x, y) {
 		// Takes x, y coordinates and converst them to the pixel number for the library
 		// Returns pixel num (integer)
+		let row = 0;
+		let add = 0;
 		if (x < 16) {
 			// left board
-			const row = 511 - y * 16;
-			const add = y % 2 === 0 ? -x : -15 + x;
+			row = 511 - y * 16;
+			add = y % 2 === 0 ? -x : -15 + x;
 		} else {
 			// right board
-			const boardX = x - 16;
-			const row = 15 + y * 16;
-			const add = y % 2 === 0 ? -boardX : -15 + boardX;
+			var boardX = x - 16;
+			row = 15 + y * 16;
+			add = y % 2 === 0 ? -boardX : -15 + boardX;
 		}
 		return row + add;
 	}
