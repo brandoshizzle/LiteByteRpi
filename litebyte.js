@@ -16,7 +16,7 @@ const app = firebase.initializeApp(firebaseConfig);
 class Example {
 	constructor() {
 		this.config = {
-			brightness: 128,
+			brightness: 80,
 			type: 'grb',
 			width: 32,
 			height: 16,
