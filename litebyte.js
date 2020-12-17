@@ -49,7 +49,7 @@ class Example {
 	}
 
 	updateFromServer(val, x, y) {
-		this.pixels[this.XYtoPixelNum(x, y)] = hex(val);
+		this.pixels[this.XYtoPixelNum(x, y)] = hex(val['c']);
 		ws281x.render(this.pixels);
 	}
 
