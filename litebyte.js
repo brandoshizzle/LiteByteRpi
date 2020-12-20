@@ -52,6 +52,10 @@ class Example {
 
 	updateFromServer(val, x, y) {
 		this.pixels[this.XYtoPixelNum(x, y)] = hex(val['c']);
+		if (Date.now() - this.lastUpdate > 250) {
+			ws281x.render(this.pixels);
+			this.lastUpdate = Date.now();
+		}
 	}
 
 	async run() {
@@ -60,15 +64,12 @@ class Example {
 			for (var y = 0; y < this.config.height; y++) {
 				const row = y.toString();
 				const col = x.toString();
-				await this.database.ref(`grid/${col}/${row}`).on('value', (snapshot) => {
+				this.database.ref(`grid/${col}/${row}`).on('value', (snapshot) => {
 					console.log(`New ${snapshot.val()} pixel incoming at ${row},${col}`);
 					this.updateFromServer(snapshot.val(), col, row);
 				});
 			}
 		}
-		setInterval(function () {
-			ws281x.render(this.pixels);
-		}, 500);
 	}
 }
 
