@@ -60,7 +60,7 @@ class Example {
 			for (var y = 0; y < this.config.height; y++) {
 				const row = y.toString();
 				const col = x.toString();
-				this.database.ref(`grid/${col}/${row}`).on('value', (snapshot) => {
+				await this.database.ref(`grid/${col}/${row}`).on('value', (snapshot) => {
 					console.log(`New ${snapshot.val()} pixel incoming at ${row},${col}`);
 					this.updateFromServer(snapshot.val(), col, row);
 				});
