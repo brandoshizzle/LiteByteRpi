@@ -52,10 +52,6 @@ class Example {
 
 	updateFromServer(val, x, y) {
 		this.pixels[this.XYtoPixelNum(x, y)] = hex(val['c']);
-		if (Date.now() - this.lastUpdate > 250) {
-			ws281x.render(this.pixels);
-			this.lastUpdate = Date.now();
-		}
 	}
 
 	async run() {
@@ -70,6 +66,9 @@ class Example {
 				});
 			}
 		}
+		setInterval(function () {
+			ws281x.render(this.pixels);
+		}, 500);
 	}
 }
 
