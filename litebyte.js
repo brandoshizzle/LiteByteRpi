@@ -27,7 +27,7 @@ class Example {
 		this.pixels = new Uint32Array(this.leds).fill(0x000000);
 		this.database = firebase.database();
 		ws281x.configure(this.config);
-		this.lastUpdate = Date.now();
+		this.updateTimer = null;
 	}
 
 	XYtoPixelNum(x, y) {
@@ -52,11 +52,13 @@ class Example {
 
 	updateFromServer(val, x, y) {
 		this.pixels[this.XYtoPixelNum(x, y)] = hex(val['c']);
-		ws281x.render(this.pixels);
-		// if (Date.now() - this.lastUpdate > 250) {
-		// 	ws281x.render(this.pixels);
-		// 	this.lastUpdate = Date.now();
-		// }
+		if (!this.updateTimer) {
+			this.updateTimer = setTimeout(function () {
+				//the function ran, clear this timeId
+				this.updateTimer = null;
+				ws281x.render(this.pixels);
+			}, 250);
+		}
 	}
 
 	async run() {
