@@ -1,4 +1,4 @@
-const ws281x = require('rpi-ws281x');
+const ws281x = require('rpi-ws281x-native');
 const firebase = require('firebase');
 const { hex } = require('./colors');
 const isOnline = require('is-online');
@@ -26,8 +26,9 @@ class Example {
 		this.leds = this.config.width * this.config.height;
 		this.pixels = new Uint32Array(this.leds).fill(0x000000);
 		this.database = firebase.database();
-		ws281x.configure(this.config);
+		// ws281x.configure(this.config);
 		this.updateTimer = null;
+		ws281x.setBrightness(80);
 	}
 
 	XYtoPixelNum(x, y) {
