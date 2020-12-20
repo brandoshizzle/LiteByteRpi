@@ -1,6 +1,7 @@
 const ws281x = require('rpi-ws281x');
 const firebase = require('firebase');
 const { hex } = require('./colors');
+const isOnline = require('is-online');
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyDcI54oa6J71Ik8_Tx6f_d7wplRkqpSuH0',
@@ -26,6 +27,7 @@ class Example {
 		this.pixels = new Uint32Array(this.leds).fill(0x000000);
 		this.database = firebase.database();
 		ws281x.configure(this.config);
+		this.lastUpdate = Date.now();
 	}
 
 	XYtoPixelNum(x, y) {
@@ -50,10 +52,14 @@ class Example {
 
 	updateFromServer(val, x, y) {
 		this.pixels[this.XYtoPixelNum(x, y)] = hex(val['c']);
-		ws281x.render(this.pixels);
+		if (Date.now() - this.lastUpdate > 250) {
+			ws281x.render(this.pixels);
+			this.lastUpdate = Date.now();
+		}
 	}
 
-	run() {
+	async run() {
+		await isOnline();
 		for (var x = 0; x < this.config.width; x++) {
 			for (var y = 0; y < this.config.height; y++) {
 				const row = y.toString();
@@ -64,8 +70,6 @@ class Example {
 				});
 			}
 		}
-		// Render to strip
-		ws281x.render(this.pixels);
 	}
 }
 
