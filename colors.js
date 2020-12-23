@@ -2,7 +2,7 @@ function hex(name) {
 	// Numbers changed from rgb to grb
 	const colors = {
 		0: '0x000000',
-		b: '0xFF00FF',
+		b: '0x0000FF',
 		w: '0xFFFFFF',
 		p: '0x2B8AE2',
 		g: '0xCD3232',
