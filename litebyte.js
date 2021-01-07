@@ -113,7 +113,12 @@ class Example {
 		this.database.ref('new').on('value', (snapshot) => {
 			const newArt = snapshot.val()[Object.keys(snapshot.val())[0]];
 			this.gallery.push(newArt);
+			const toDB = {};
+			toDB[newArt.title] = newArt;
+			this.database.ref('gallery').update(toDB);
+			this.database.ref('new').set({});
 		});
+
 		console.log(this.gallery);
 		setInterval(this.loop.bind(this), 1000);
 		// for (var x = 0; x < this.config.width; x++) {
