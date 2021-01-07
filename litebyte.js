@@ -58,6 +58,7 @@ class Example {
 
 	loop() {
 		// console.log(this.gallery);
+		// Test comment
 		// Each loop, we get the next image
 		if (this.gallery.length === 0) {
 			return;
