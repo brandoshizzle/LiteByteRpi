@@ -28,6 +28,7 @@ class Example {
 		this.database = firebase.database();
 		ws281x.configure(this.config);
 		this.gallery = [];
+		this.position = 0;
 	}
 
 	XYtoPixelNum(x, y) {
@@ -55,21 +56,36 @@ class Example {
 		ws281x.render(this.pixels);
 	}
 
-	loop() {}
+	loop() {
+		// Each loop, we get the next image
+		const currentImage = this.gallery[this.position];
+		// Turn it into a proper grid
+		let ledCounter = 0;
+		let imageArray = currentImage.match(/[a-zA-Z]+|[0-9]+/g);
+		for (var i = 0; i < imageArray.length; i = i + 2) {
+			let num = imageArray[i];
+			let color = imageArray[i + 1];
+			for (var j = 0; j < num; j++) {
+				this.pixels[ledCounter] = hex(color);
+				ledCounter++;
+			}
+		}
+		ws281x.render(this.pixels);
+	}
 
 	async run() {
 		await isOnline();
 		this.database.ref(`gallery`).once('value', (snapshot) => {
 			if (snapshot.val() === null) {
-				this.gallery = {};
+				this.gallery = [];
 			} else {
-				this.gallery = snapshot.val();
+				this.gallery = Object.values(snapshot.val());
 			}
 			console.log(this.gallery);
 		});
 		this.database.ref('new').on('value', (snapshot) => {
 			const newArt = snapshot.val()[Object.keys(snapshot.val())[0]];
-			this.gallery[newArt.title] = newArt;
+			this.gallery.push(newArt);
 			console.log(newArt);
 		});
 		setInterval(this.loop.bind(this), 1000 * 60 * 5);
