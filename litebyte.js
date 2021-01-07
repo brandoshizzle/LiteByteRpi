@@ -70,7 +70,9 @@ class Example {
 			let num = imageArray[i];
 			let color = imageArray[i + 1];
 			for (var j = 0; j < num; j++) {
-				this.pixels[ledCounter] = hex(color);
+				const y = ledCounter % 15;
+				const x = Math.floor(ledCounter / 15);
+				this.pixels[this.XYtoPixelNum(x, y)] = hex(color);
 				ledCounter++;
 			}
 		}
