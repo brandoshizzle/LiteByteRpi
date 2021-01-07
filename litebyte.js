@@ -57,8 +57,9 @@ class Example {
 	}
 
 	loop() {
+		console.log(this.gallery);
 		// Each loop, we get the next image
-		const currentImage = this.gallery[this.position];
+		const currentImage = this.gallery[this.position].art;
 		// Turn it into a proper grid
 		let ledCounter = 0;
 		let imageArray = currentImage.match(/[a-zA-Z]+|[0-9]+/g);
@@ -71,6 +72,7 @@ class Example {
 			}
 		}
 		ws281x.render(this.pixels);
+		this.position = this.position + 1;
 	}
 
 	async run() {
@@ -81,12 +83,10 @@ class Example {
 			} else {
 				this.gallery = Object.values(snapshot.val());
 			}
-			console.log(this.gallery);
 		});
 		this.database.ref('new').on('value', (snapshot) => {
 			const newArt = snapshot.val()[Object.keys(snapshot.val())[0]];
 			this.gallery.push(newArt);
-			console.log(newArt);
 		});
 		setInterval(this.loop.bind(this), 1000 * 60 * 5);
 		// for (var x = 0; x < this.config.width; x++) {
