@@ -57,7 +57,7 @@ class Example {
 	}
 
 	loop() {
-		console.log(this.gallery);
+		// console.log(this.gallery);
 		// Each loop, we get the next image
 		if (this.position === this.gallery.length) {
 			this.position = 0;
@@ -91,7 +91,7 @@ class Example {
 				for (var j = 0; j < num; j++) {
 					const y = ledCounter % 16;
 					const x = Math.floor(ledCounter / 16);
-					console.log(x, y, color, ledCounter);
+					// console.log(x, y, color, ledCounter);
 					this.pixels[this.XYtoPixelNum(x, y)] = hex(color);
 					ledCounter++;
 				}
@@ -114,16 +114,19 @@ class Example {
 			if (!snapshot.val()) {
 				return;
 			}
-			const newArt = snapshot.val()[Object.keys(snapshot.val())[0]];
-			this.gallery.push(newArt);
-			const toDB = {};
-			toDB[newArt.title] = newArt;
-			this.database.ref('gallery').update(toDB);
+			for (var i = 0; i < Object.keys(snapshot.val()).length; i++) {
+				const newArt = snapshot.val()[Object.keys(snapshot.val())[i]];
+				this.gallery.push(newArt);
+				const toDB = {};
+				toDB[newArt.title] = newArt;
+				this.database.ref('gallery').update(toDB);
+			}
 			this.database.ref('new').set({});
 		});
 
-		console.log(this.gallery);
-		setInterval(this.loop.bind(this), 1000);
+		// console.log(this.gallery);
+		// Every 2 minute
+		setInterval(this.loop.bind(this), 1000 * 60 * 2);
 		// for (var x = 0; x < this.config.width; x++) {
 		// 	for (var y = 0; y < this.config.height; y++) {
 		// 		const row = y.toString();
