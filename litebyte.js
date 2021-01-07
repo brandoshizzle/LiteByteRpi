@@ -64,7 +64,7 @@ class Example {
 			console.log(this.gallery);
 		});
 		this.database.ref('new').on('value', (snapshot) => {
-			const newArt = snaptshot.val()[Object.keys(snaptshot.val())[0]];
+			const newArt = snapshot.val()[Object.keys(snapshot.val())[0]];
 			this.gallery[newArt.title] = newArt;
 			console.log(newArt);
 		});
