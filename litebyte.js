@@ -66,6 +66,15 @@ class Example {
 		// Turn it into a proper grid
 		let ledCounter = 0;
 		let imageArray = currentImage.match(/[a-zA-Z]+|[0-9]+/g);
+		imageArray = imageArray
+			.map((val, index) => {
+				if (isNaN(val)) {
+					return val.split('');
+				} else {
+					return val;
+				}
+			})
+			.flat();
 		let num = 0;
 		let color = '';
 		for (var i = 0; i < imageArray.length; i++) {
