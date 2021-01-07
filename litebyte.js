@@ -57,7 +57,7 @@ class Example {
 	}
 
 	loop() {
-		// console.log(this.gallery);
+		console.log(this.gallery);
 		// Each loop, we get the next image
 		if (this.position === this.gallery.length) {
 			this.position = 0;
@@ -126,7 +126,7 @@ class Example {
 
 		// console.log(this.gallery);
 		// Every 2 minute
-		setInterval(this.loop.bind(this), 1000 * 60 * 2);
+		setInterval(this.loop.bind(this), 1000);
 		// for (var x = 0; x < this.config.width; x++) {
 		// 	for (var y = 0; y < this.config.height; y++) {
 		// 		const row = y.toString();
