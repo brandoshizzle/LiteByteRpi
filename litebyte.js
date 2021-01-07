@@ -72,7 +72,7 @@ class Example {
 			for (var j = 0; j < num; j++) {
 				const y = ledCounter % 16;
 				const x = Math.floor(ledCounter / 16);
-				console.log(x, y);
+				console.log(x, y, ledCounter);
 				this.pixels[this.XYtoPixelNum(x, y)] = hex(color);
 				ledCounter++;
 			}
