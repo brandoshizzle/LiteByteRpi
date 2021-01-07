@@ -59,6 +59,9 @@ class Example {
 	loop() {
 		console.log(this.gallery);
 		// Each loop, we get the next image
+		if (this.position === this.gallery.length) {
+			this.position = 0;
+		}
 		const currentImage = this.gallery[this.position].art;
 		// Turn it into a proper grid
 		let ledCounter = 0;
