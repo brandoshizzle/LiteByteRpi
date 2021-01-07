@@ -88,7 +88,8 @@ class Example {
 			const newArt = snapshot.val()[Object.keys(snapshot.val())[0]];
 			this.gallery.push(newArt);
 		});
-		setInterval(this.loop.bind(this), 1000 * 60 * 5);
+		console.log(this.gallery);
+		setInterval(this.loop.bind(this), 1000);
 		// for (var x = 0; x < this.config.width; x++) {
 		// 	for (var y = 0; y < this.config.height; y++) {
 		// 		const row = y.toString();
