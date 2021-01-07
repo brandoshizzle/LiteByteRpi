@@ -112,7 +112,7 @@ class Example {
 		});
 		this.database.ref('new').on('value', (snapshot) => {
 			if (!snapshot.val()) {
-				break;
+				return;
 			}
 			const newArt = snapshot.val()[Object.keys(snapshot.val())[0]];
 			this.gallery.push(newArt);
