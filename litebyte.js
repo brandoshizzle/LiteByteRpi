@@ -60,7 +60,11 @@ class Example {
 	async run() {
 		await isOnline();
 		this.database.ref(`gallery`).once('value', (snapshot) => {
-			this.gallery = snapshot.val();
+			if (snapshot.val() === null) {
+				this.gallery = {};
+			} else {
+				this.gallery = snapshot.val();
+			}
 			console.log(this.gallery);
 		});
 		this.database.ref('new').on('value', (snapshot) => {
