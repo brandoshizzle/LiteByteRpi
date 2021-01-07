@@ -122,7 +122,7 @@ class Example {
 				const newArt = snapshot.val()[Object.keys(snapshot.val())[i]];
 				this.gallery.push(newArt);
 				const toDB = {};
-				toDB[newArt.title] = newArt;
+				toDB[Math.floor(Math.random() * 1000000)] = newArt;
 				this.database.ref('gallery').update(toDB);
 			}
 			this.database.ref('new').set({});
