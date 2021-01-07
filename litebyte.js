@@ -27,7 +27,7 @@ class Example {
 		this.pixels = new Uint32Array(this.leds).fill(0x000000);
 		this.database = firebase.database();
 		ws281x.configure(this.config);
-		this.lastUpdate = Date.now();
+		this.gallery = [];
 	}
 
 	XYtoPixelNum(x, y) {
@@ -55,18 +55,30 @@ class Example {
 		ws281x.render(this.pixels);
 	}
 
+	loop() {}
+
 	async run() {
 		await isOnline();
-		for (var x = 0; x < this.config.width; x++) {
-			for (var y = 0; y < this.config.height; y++) {
-				const row = y.toString();
-				const col = x.toString();
-				this.database.ref(`grid/${col}/${row}`).on('value', (snapshot) => {
-					console.log(`New ${snapshot.val()} pixel incoming at ${row},${col}`);
-					this.updateFromServer(snapshot.val(), col, row);
-				});
-			}
-		}
+		this.database.ref(`gallery`).once('value', (snapshot) => {
+			this.gallery = snapshot.val();
+			console.log(this.gallery);
+		});
+		this.database.ref('new').on('value', (snapshot) => {
+			const newArt = snaptshot.val()[Object.keys(snaptshot.val())[0]];
+			this.gallery[newArt.title] = newArt;
+			console.log(newArt);
+		});
+		setInterval(this.loop.bind(this), 1000 * 60 * 5);
+		// for (var x = 0; x < this.config.width; x++) {
+		// 	for (var y = 0; y < this.config.height; y++) {
+		// 		const row = y.toString();
+		// 		const col = x.toString();
+		// 		this.database.ref(`grid/${col}/${row}`).on('value', (snapshot) => {
+		// 			console.log(`New ${snapshot.val()} pixel incoming at ${row},${col}`);
+		// 			this.updateFromServer(snapshot.val(), col, row);
+		// 		});
+		// 	}
+		// }
 	}
 }
 
