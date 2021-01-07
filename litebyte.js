@@ -66,15 +66,26 @@ class Example {
 		// Turn it into a proper grid
 		let ledCounter = 0;
 		let imageArray = currentImage.match(/[a-zA-Z]+|[0-9]+/g);
-		for (var i = 0; i < imageArray.length; i = i + 2) {
-			let num = imageArray[i];
-			let color = imageArray[i + 1];
-			for (var j = 0; j < num; j++) {
-				const y = ledCounter % 16;
-				const x = Math.floor(ledCounter / 16);
-				console.log(x, y, ledCounter);
-				this.pixels[this.XYtoPixelNum(x, y)] = hex(color);
-				ledCounter++;
+		let num = 0;
+		let color = '';
+		for (var i = 0; i < imageArray.length; i++) {
+			const val = imageArray[i];
+			const lastVal = i > 0 ? imageArray[i - 1] : 'n';
+			if (isNaN(val)) {
+				// It's a letter, so the previous one is the num
+				color = val;
+				if (isNaN(lastVal)) {
+					num = 1;
+				} else {
+					num = lastVal;
+				}
+				for (var j = 0; j < num; j++) {
+					const y = ledCounter % 16;
+					const x = Math.floor(ledCounter / 16);
+					console.log(x, y, ledCounter);
+					this.pixels[this.XYtoPixelNum(x, y)] = hex(color);
+					ledCounter++;
+				}
 			}
 		}
 		ws281x.render(this.pixels);
