@@ -9,8 +9,8 @@ function hex(name) {
 		o: '0xA5FF00',
 		y: '0xFFFF00',
 		r: '0x00FF00',
-		a: '0x00FFFF',
-		c: '0xFFC0CB',
+		a: '0xFFC0CB',
+		c: '0x00FFFF',
 	};
 	return colors[name];
 }
