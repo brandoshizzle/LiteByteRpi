@@ -1,0 +1,131 @@
+.circle {
+	background: gray;
+	opacity: 0.2;
+	width: 100%;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+}
+
+.circle:hover {
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+.peg {
+	flex: 1;
+}
+
+.grad1 {
+	height: 200px;
+	background: red;
+	/* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(left, orange, yellow, green, cyan, blue, violet);
+	/* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
+	/* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
+	/* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, red, orange, yellow, green, blue);
+	/* Standard syntax (must be last) */
+}
+
+#litebrite {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	/* background: #282c34; */
+	background: black;
+	padding: 10px;
+	border-radius: 20px;
+	max-width: 100%;
+	max-height: 100%;
+	aspect-ratio: 2/1;
+}
+
+@media (max-width: 768px) {
+	#gallery {
+		margin-top: 2vw !important;
+	}
+}
+
+#modal {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background: #eee;
+	width: 70%;
+	height: 75%;
+	max-width: 1000px;
+	max-height: 700px;
+	border-radius: 10px;
+	padding: 20px;
+	color: #111;
+}
+
+html {
+	/* The image used */
+	/* background-image: url('./img/bg.jpg'); */
+	background: #282c34;
+	/* Full height */
+	min-height: 100vh;
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+:root {
+	--background-body: none !important;
+}
+
+#gallery {
+	flex: 1;
+	margin-top: 4vmin;
+	margin-bottom: 4vmin;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	overflow-y: scroll;
+}
+
+.thumbnail {
+	width: 95%;
+	background: #222;
+	font-size: 1rem;
+	padding: 3px;
+	margin-bottom: 3px;
+	opacity: 0.8;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.thumbnail:hover {
+	box-shadow: 0px 0px 5px white;
+	opacity: 1;
+}
+
+.thumbnail-selected {
+	background: #444;
+	box-shadow: 0px 0px 5px white;
+}
+
+.gallery-container {
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+}
+
+#color-menu {
+	position: absolute;
+	bottom: 50px;
+	right: 50px;
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+	padding: 10px;
+	background: #333;
+	border-radius: 20px;
+	border: 2px solid #999;
+	box-shadow: 2px 2px 5px #000;
+}
