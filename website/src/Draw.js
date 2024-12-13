@@ -3,15 +3,12 @@ import { useState, } from 'react';
 import './App.css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { colorState, boardState } from './components/state';
-import Draggable from 'react-draggable';
 import Pic1 from './img/IMG_5839.jpg';
 import Pic3 from './img/IMG_5904.jpg';
 import './index.css';
-import Board from './components/Board2';
-import createBoardString from './utils/encodeBoardString';
-import { CirclePicker } from 'react-color';
-import { colorsArray, colors } from './data/colors';
-import { Box, Button, Flex, Heading, ListItem, Text, UnorderedList, useDisclosure } from '@chakra-ui/react';
+import Board from './components/BoardCanvas';
+import { colors } from './data/colors';
+import { Box, Button, Flex, Grid, Heading, Input, ListItem, Text, UnorderedList, useDisclosure } from '@chakra-ui/react';
 import {
 	Modal,
 	ModalOverlay,
@@ -21,6 +18,10 @@ import {
 	ModalBody,
 	ModalCloseButton,
 } from '@chakra-ui/react'
+import Tappable from 'react-tappable';
+import decodeBoardString from './utils/decodeBoardString';
+import { ref, set } from 'firebase/database';
+import encodeBoardString from './utils/encodeBoardString';
 
 // // Firebase App (the core Firebase SDK) is always required and
 // // must be listed before other Firebase SDKs
@@ -43,35 +44,75 @@ function Draw (props) {
 
 	const db = props.db;
 
-	const board = useRecoilValue(boardState);
+	const [title, setTitle] = useState('');
+	const [person, setPerson] = useState('');
+	const [clearGridTrigger, setClearGridTrigger] = useState(0);
+
+	const [localBoardState, setLocalBoardState] = useState('');
+	const [board, setBoard] = useRecoilState(boardState);
 	const [chosenColor, setChosenColor] = useRecoilState(colorState);
-	const [colorMenuOpen, setColorMenuOpen] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure()
+	const { isOpen: saveIsOpen, onOpen: saveOnOpen, onClose: saveOnClose } = useDisclosure()
+	const { isOpen: clearIsOpen, onOpen: clearOnOpen, onClose: clearOnClose } = useDisclosure()
 
 	useEffect(() => {
 		onOpen();
+		const storedImage = localStorage.getItem('litebrite');
+		if (storedImage) {
+			const storedBoard = decodeBoardString(storedImage);
+			setLocalBoardState(storedBoard);
+		}
 	}, []);
 
-	function saveDrawing () {
-		const title = prompt('Artwork Title');
-		const person = prompt('Artist Name');
-		const boardString = createBoardString(board);
+	async function saveDrawing () {
+		const boardString = encodeBoardString(board);
 		console.log(title, person, boardString);
-		const newArt = {};
-		newArt[Math.floor(Math.random() * 100000)] = { title, artist: person, art: boardString };
-		db.ref('new').update(newArt, (err) => {
-			if (err) {
-				alert('Hmm, we had an issue. Please let Brandon know at cathcart.brandon@gmail.com');
-			} else {
-				alert('Artwork submitted! Thanks :) Gallery of all art coming soon.');
-			}
-		});
+		const newArt = { title, artist: person, art: boardString };
+		try {
+			// await set(ref(db, `xmas2024/${Date.now()}`), {
+			// 	...newArt,
+			// 	created: new Date().toISOString()
+			// });
+			alert('Artwork submitted! Thanks :) It will be live soon!');
+		} catch (error) {
+			alert('Hmm, we had an issue. Please let Brandon know at cathcart.brandon@gmail.com');
+		}
 	}
 
 	return (
-		<Box p={{ base: 0, md: 4 }} h='100vh'>
-			<Board chosenColor={chosenColor} readOnly={false} />
-			<Modal isOpen={isOpen} onClose={onClose} size='5xl'>
+		<>
+			<Flex p={{ base: 0, lg: 4 }} h='full' w='full' position='fixed' p={1}>
+				<Box flex={1} w='full'>
+					<Board boardString={localBoardState} chosenColor={chosenColor} readOnly={false} clearGridTrigger={clearGridTrigger} />
+				</Box>
+				<Box minW={100} h='full' overflowY='scroll'>
+					<div>
+						<div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
+							{
+								colors && Object.keys(colors).map(color => (
+									<Tappable onTap={() => {
+										setChosenColor(color)
+									}}>
+										<div className='circle'
+											style={{
+												height: 60, width: 60, background: colors[color],
+												opacity: chosenColor === color ? 1 : 0.8, cursor: 'pointer',
+												border: chosenColor === color ? '2px solid #eee' : undefined
+											}}></div>
+									</Tappable>
+								))
+							}
+							<Tappable onTap={() => clearOnOpen()}>
+								<Button>Clear Grid</Button>
+							</Tappable>
+							<Tappable onTap={() => saveOnOpen()}>
+								<Button>Submit Art</Button>
+							</Tappable>
+						</div>
+					</div>
+				</Box>
+			</Flex >
+			<Modal isOpen={isOpen} onClose={onClose} size={{ base: 'xl', lg: '5xl' }} preserveScrollBarGap>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalCloseButton />
@@ -98,41 +139,54 @@ function Draw (props) {
 					</ModalBody>
 					<ModalFooter>
 						<Button onClick={onClose}>
-							I'm done thanks please let me play now.
+							Nice
 						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
-			<Draggable>
-				<div id='color-menu'>
-					{
-						colorMenuOpen && (
-							<CirclePicker
-								circleSize={40}
-								color={chosenColor}
-								onChangeComplete={color => {
-									setChosenColor(Object.keys(colors).find(key => colors[key] === color.hex.toUpperCase()))
-									setColorMenuOpen(false)
-								}}
-								colors={colorsArray} />
-						)
-					}
-					<div style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-						{
-							!colorMenuOpen &&
-							<div className='circle'
-								onClick={() => {
-									console.log('open')
-									setColorMenuOpen(!colorMenuOpen)
-								}}
-								style={{ height: 40, width: 40, background: colors[chosenColor], opacity: 1 }}></div>
-						}
-						{/* <button style={{ margin: 0, borderRadius: 10 }} onClick={() => setColorMenuOpen(!colorMenuOpen)}><VscSymbolColor /></button> */}
-						<Button onClick={() => saveDrawing()}>Done!</Button>
-					</div>
-				</div>
-			</Draggable>
-		</Box>
+			<Modal isOpen={saveIsOpen} onClose={saveOnClose} size={{ base: 'xl', lg: '5xl' }} preserveScrollBarGap>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalCloseButton />
+					<ModalHeader>Submit your artwork</ModalHeader>
+					<ModalBody display='flex' flexDirection='column' gap={4}>
+						<Text>
+							Once it's submitted, it's done! Talk to Brandon if it should be removed.
+						</Text>
+						<Grid gridTemplateColumns='50px 1fr' justify='center' gap={2}>
+							<Text mt={1}>Title</Text>
+							<Input type="text" placeholder="Enter title here" value={title} onChange={e => setTitle(e.target.value)} />
+							<Text mt={1}>Artist</Text>
+							<Input type="text" placeholder="Enter your name here" value={person} onChange={e => setPerson(e.target.value)} />
+						</Grid>
+					</ModalBody>
+					<ModalFooter display='flex' gap={2}>
+						<Button onClick={saveOnClose} variant='ghost'>Cancel</Button>
+						<Button onClick={saveDrawing}>Submit</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+			<Modal isOpen={clearIsOpen} onClose={clearOnClose} size={{ base: 'xl', lg: '5xl' }} preserveScrollBarGap>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalCloseButton />
+					<ModalHeader>Clear Grid</ModalHeader>
+					<ModalBody display='flex' flexDirection='column' gap={4}>
+						<Text>
+							Are you sure? This will erase everything you've drawn.
+						</Text>
+					</ModalBody>
+					<ModalFooter display='flex' gap={2}>
+						<Button onClick={saveOnClose} size='lg' variant='ghost'>Cancel</Button>
+						<Button onClick={() => {
+							setClearGridTrigger(prev => prev + 1)
+							clearOnClose()
+						}} size='lg' bg='red'>Clear</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal >
+		</>
+
 	);
 }
 

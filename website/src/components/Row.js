@@ -1,6 +1,8 @@
+import { memo } from 'react';
 import Peg from './Peg';
 
 function Row (props) {
+	console.log('rendering row')
 	const pegNumArray = Array.from(Array(props.numPegs).keys());
 	const oneRow = pegNumArray.map((num) => {
 		return (
@@ -9,7 +11,7 @@ function Row (props) {
 				col={num}
 				row={props.rowNum}
 				id={`${num}-${props.rowNum}`}
-				onPegClick={props.onPegClick}
+				// color={props.rowData[num]}
 				readOnly={props.readOnly}
 			/>
 		);
@@ -19,4 +21,4 @@ function Row (props) {
 	);
 }
 
-export default Row;
+export default memo(Row);

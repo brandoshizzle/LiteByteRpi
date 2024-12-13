@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './App.css';
 import './index.css';
-import Board from './components/Board2';
+import Board from './components/BoardCanvas';
 import { child, get, ref } from 'firebase/database';
 import { Box, Button, Card, CardBody, Flex, Heading, Text } from '@chakra-ui/react';
 import { BsChevronLeft } from 'react-icons/bs';
@@ -17,14 +17,14 @@ function Gallery (props) {
 
 	useEffect(() => {
 		const dbRef = ref(db);
-		get(child(dbRef, 'gallery')).then((snapshot) => {
+		get(child(dbRef, 'new')).then((snapshot) => {
 			setGallery(snapshot.val());
 		});
 	}, [db]);
 
 	const onArtClick = (e) => {
 		const key = e.target.id;
-		const artString = gallery[key].art;
+		const artString = gallery?.[key]?.art || '';
 		setBoardString(artString);
 	};
 
@@ -46,13 +46,15 @@ function Gallery (props) {
 	});
 
 	return (
-		<Flex gap={0} h='100vh'>
-			<Box flex={1}>
-				<Box p={4}>
+		<Flex gap={0} h='full' w='full'>
+			<Box flex={1} w='full'>
+				<Box p={4} w='full'>
 					<Link to='/'>
 						<Button mb={2} leftIcon={<BsChevronLeft />}>Home</Button>
 					</Link>
-					<Board boardString={boardString} />
+					<Box position='relative'>
+						<Board boardString={boardString} />
+					</Box>
 				</Box>
 			</Box>
 			<Flex direction='column' gap={1} width={{ base: 300, lg: 400 }}>

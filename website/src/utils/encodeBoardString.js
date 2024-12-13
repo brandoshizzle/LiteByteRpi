@@ -1,5 +1,28 @@
 
-export default function encodeBoardString (objBoard) {
+const encodeBoardString = (boardString) => {
+
+	// Condense the board string
+	let condensedString = '';
+	let count = 1;
+	for (let i = 0; i < boardString.length; i++) {
+		if (boardString[i] === boardString[i + 1]) {
+			count++;
+		} else {
+			if (count > 1) {
+				condensedString += count + boardString[i];
+			} else {
+				condensedString += boardString[i];
+			}
+			count = 1;
+		}
+	}
+
+	return condensedString;
+};
+
+export default encodeBoardString;
+
+function encodeBoardStringOld (objBoard) {
 	let boardString = '';
 	let color = '';
 	let count = 0;

@@ -1615,5 +1615,5 @@ export const mouseState = atom({
 
 export const boardState = atom({
 	key: 'boardState',
-	default: defaultDB,
+	default: 'n'.repeat(512),
 });
